@@ -4,41 +4,62 @@
 import pygame
 import pygame.event as pyev
 
-##global variables
-currentState="none"
+#Globals
+UP = 1073741906
+DOWN= 1073741905
+SPACE = 32
+ESC = 27
+menuOptions = {0:"none",1:"start",2:"quit"}
 
 ###funtions
 
 ##main
 def main():
     pygame.init()
+    print(ESC)
+    currentState="none"
     screen = pygame.display.set_mode((640, 240))
     clock = pygame.time.Clock()
     clock.tick(1)
     menu()
     pygame.quit()
 
+def selectState(option):
+    if option == "menu":
+        menu()
+    if option == "start":
+        start()
+    if option == "quit":
+        quit()
+    if option == "prepphase":
+        goPrepPhase()
+    if option == "advphase":
+        goAdvPhase()
 ##menu
 def menu():
+    print("Menu Opening")
     currentState = "menu"
     noOfOptions = 2
     selectedEvent = 1
     loopno=0
     while currentState == 'menu':
         for event in pygame.event.get():
-
+            print(event)
             if event.type == pygame.KEYDOWN:
-                print(event.key)
-                if event == pygame.K_DOWN: 
+
+                if event.key == DOWN: 
                     selectedEvent -= 1
                     if selectedEvent == 0:
                         selectedEvent = noOfOptions
-                        print("down")
-                if event == pygame.K_UP:
+                    print("Moved down to: "+menuOptions[selectedEvent])
+
+
+                if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == noOfOptions+1:
                         selectedEvent = 1
-                        print("up")
+                    print("Moved up to: "+menuOptions[selectedEvent])
+
                 if event.key == 32:
                     if selectedEvent == 1:
                         currentState = "start"
@@ -46,15 +67,14 @@ def menu():
                     if selectedEvent == 2:
                         currentState = "quit"
                         print("Quit selected")
-
-    if currentState=="start":
-        start()
-    if currentState=="quit":
-        quit()
+    print(currentState)
+    selectState(currentState)
 
 #start
 def start():
-    pass
+    print("Game Starting")
+    currentState= 'prepphase'
+    goPrepPhase()
 
 #quit
 def quit():
@@ -62,7 +82,15 @@ def quit():
 
 ##prep phase
 def goPrepPhase():
-    pass
+    print("Prep Phase Has Begun")
+    currentState= 'prepphase'
+    while currentState == 'prepphase':
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                print(event.key)
+                if event.key == ESC: 
+                    currentState = "menu"
+                    
 
 ##adventure phase
 def goAdvPhase():
