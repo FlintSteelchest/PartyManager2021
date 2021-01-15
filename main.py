@@ -3,8 +3,13 @@
 #Imports
 import pygame
 
-
 ###funtions
+
+##main
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((640, 240))
+    pygame.quit()
 
 ##menu
 def menu():
@@ -39,3 +44,7 @@ class characters:
 #events
 class events:
     pass
+
+
+#main
+main()
