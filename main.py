@@ -1,7 +1,7 @@
 #It begins bois
 
 #Imports
-import Pygame
+import pygame
 
 
 ###funtions
