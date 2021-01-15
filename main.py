@@ -8,20 +8,34 @@ import Pygame
 
 ##menu
 def menu():
-    skip
+    pass
 
 #start
 def start():
-    skip
+    pass
 
 #quit
 def quit():
-    skip
+    pass
 
 ##prep phase
 def goPrepPhase():
-    skip
+    pass
 
 ##adventure phase
 def goAdvPhase():
-    skip
+    pass
+
+###Objects
+
+#lineup
+class lineup:
+    pass
+
+#characters
+class characters:
+    pass
+
+#events
+class events:
+    pass
