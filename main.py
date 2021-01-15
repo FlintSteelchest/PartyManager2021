@@ -3,6 +3,7 @@
 #Imports
 import pygame
 import pygame.event as pyev
+import random
 
 #Globals
 UP = 1073741906
@@ -35,8 +36,38 @@ def selectState(option):
         goAdvPhase()
 ##menu
 
-def startMenu():
+def genericMenu(openMessageList,menuOptions,startState,optionResultsList):
+    print("hello")
+    for message in openMessageList:
+        print(message)
+    print("The menu options are:")
+    for option in menuOptions:
+        print(option)
+    currentState = startState
+    selectedEvent = 1
+    print("You have \""+ menuOptions[selectedEvent]+"\" selected")
 
+    while currentState == startState:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == DOWN: 
+                    selectedEvent -= 1
+                    if selectedEvent < 0:
+                        selectedEvent = len(menuOptions)-1
+                    print("Moved down to: "+menuOptions[selectedEvent])
+
+
+                if event.key == UP:
+                    selectedEvent += 1
+                    if selectedEvent == len(menuOptions):
+                        selectedEvent = 1
+                    print("Moved up to: "+menuOptions[selectedEvent])
+                
+                if event.key == 32:
+                    print(menuOptions[selectedEvent]+" selected")
+                    optionResultsList[menuOptions[selectedEvent]]()
+
+def startMenu():
     print("Welcome to the game!")
     print("The menu options are:")
     startMenuOptions = {1:"start",2:"quit"}
@@ -75,7 +106,7 @@ def startMenu():
     selectState(currentState)
 
 def gameMenu():
-    print("Welcome to the game!")
+    print("You have paused the game")
     print("The menu options are:")
     gameMenuOptions = {1:"return to game",2:"quit"}
     for option in gameMenuOptions.values():
@@ -121,6 +152,9 @@ def start():
 def quit():
     exit(0)
 
+def returntogame():
+    pass
+
 ##prep phase
 def goPrepPhase():
     global Party
@@ -149,7 +183,8 @@ def goPrepPhase():
                         selectedEvent = 1
                     print("Moved up to: "+prepMenuOptions[selectedEvent])
                 if event.key == ESC: 
-                    gameMenu()
+                    genericMenu(["You have paused the game"],["quit", "return to game"],"pause",{"quit":quit,"return to game":returntogame})
+                    #gameMenu()
                 
                 if event.key == SPACE:
                     if prepMenuOptions[selectedEvent] == "Create random character":
@@ -251,18 +286,19 @@ def generateCharacter():
         Performance
         Pesuasion'''
 
-import random
 
 #roll stats 4d6-1
-def fourdsix ():
-    roll1 = random.randint (1,6)
-    roll2 = random.randint (1,6)
-    roll3 = random.randint (1,6)
-    roll4 = random.randint (1,6)
-    total_rolls = [roll1,roll2,roll3,roll4]
-    total_rolls.sort() 
-    total_rolls.pop(0)
-    stat = total_rolls[0] + total_rolls[1] + total_rolls[2]
+#number of dice, dice sides, how many to keep, how many to drop, drop high or low
+def rolldice(n,s,d,hol):
+    total_rolls = [random.randint(1,s) for i in range(n)]
+    if d >0:
+        if hol=='h':
+            for x in range(d-1):
+                total_rolls.remove(min(total_rolls))
+        if hol=='l':
+            for x in range(d-1):
+                total_rolls.remove(max(total_rolls))
+    stat = sum(total_rolls)
     return stat
 
 def printCharacter(char):
@@ -284,12 +320,12 @@ def generate_character (n,l,hd):
     #generate core stat block
     name = {'Name':n}
     level = {'lvl' : l}
-    strength = fourdsix()
-    dexterity = fourdsix()
-    constiution = fourdsix()
-    intelegence = fourdsix()
-    wisdom = fourdsix()
-    charisma = fourdsix()
+    strength = rolldice(4,6,3,'h')
+    dexterity = rolldice(4,6,3,'h')
+    constiution = rolldice(4,6,3,'h')
+    intelegence = rolldice(4,6,3,'h')
+    wisdom = rolldice(4,6,3,'h')
+    charisma = rolldice(4,6,3,'h')
     hp = {'HP':6 + (sum([random.randint(1,hd) for i in range(level['lvl'])])) + modifier[constiution]*level['lvl']}
 
  
@@ -309,30 +345,32 @@ def generate_character (n,l,hd):
     character = [name,level,hp,character_stats,skills]
     return character
 
-
-
 #events
 class events:
     pass
 
 #skill check
 def skillcheck(character) :
+    currentState = "skillcheck"
     print(character)
     listofskills =[['athletics','str'],['acrobatics','dex'],['animal handling','wis'],['arcana','int'],['deception','cha'],['history','int'],['insight','wis'],['intimidation','cha'],['investigation','int'],['medicine','wis'],['nature','int'],['perception','wis'],['persuasion','wis'],['religion','int'],['slight of hand','dex'],['stealth','dex'],['survivial','wis']]
     skilltest = random.choice(list(listofskills))
     skillthreshold = random.randint(8,22)
    
     print ('Oh no!, a problem that can only be solved by '+str(skilltest[0])+' and it requires that are crew rolls a '+str(skillthreshold)+' to pass!')
-    input ()
-    print (character[0]['Name']+ ' steps up... ')
-    #
-    charroll = character [4][skilltest[0]] + random.randint(1,20)
-    print (charroll) 
-    if charroll >= skillthreshold :
-        print ("Sucess")
-    else :
-        print ("Failure")
-
+    while currentState == 'skillcheck':
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == SPACE: 
+                    print (character[0]['Name']+ ' steps up... ')
+                    #
+                    charroll = character [4][skilltest[0]] + random.randint(1,20)
+                    print (charroll) 
+                    if charroll >= skillthreshold :
+                        print ("Sucess")
+                    else :
+                        print ("Failure")
+                    currentState = 'none'
 
 #main
 main()
