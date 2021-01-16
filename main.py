@@ -12,13 +12,16 @@ DOWN= 1073741905
 SPACE = 32
 ESC = 27
 Party = []
+HISTORY = ["","","","","","","","","",""]
 ###funtions
 
 ##main
 pygame.init()
 pygame.font.init()
 currentState="none"
-screen = pygame.display.set_mode((640, 240))
+screen = pygame.display.set_mode((640, 480))
+pygame.display.set_caption('Party Manager Sim 2021')
+
 clock = pygame.time.Clock()
 clock.tick(10)
 
@@ -28,10 +31,20 @@ def main():
 
 def printToScreen(text):
     print(text)
-    myfont = pygame.font.SysFont('Comic Sans MS', 30)
-    textsurface = myfont.render(text, False, (100, 100, 100))
-    screen.blit(textsurface,(10,10))
-
+    HISTORY.insert(0,text)
+    print(HISTORY)
+    white = (255, 255, 255)
+    green = (0, 255, 0)
+    blue = (0, 0, 128)    
+    font = pygame.font.SysFont('Comic Sans MS', 30)
+    display_surface = pygame.display.set_mode((640, 480))
+    for message in range(1):
+        text = font.render(HISTORY[message], True, green, blue)
+        textRect = text.get_rect()
+        print(320,480-24*message)
+        textRect.center = (320,480-24*message)
+        display_surface.blit(text, textRect)
+    pygame.display.update()
 def selectState(option):
     if option == "menu":
         menu()
@@ -57,6 +70,7 @@ def genericMenu(openMessageList,menuOptions,startState,optionResultsList):
     printToScreen("You have \""+ menuOptions[selectedEvent]+"\" selected")
 
     while currentState == startState:
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == DOWN: 
@@ -87,6 +101,7 @@ def startMenu():
     printToScreen("You have \""+ startMenuOptions[selectedEvent]+"\" selected")
     loopno=0
     while currentState == 'menu':
+        pygame.display.update()
         for event in pygame.event.get():
             #printToScreen(event)
             if event.type == pygame.KEYDOWN:
