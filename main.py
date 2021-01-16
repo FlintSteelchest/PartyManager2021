@@ -34,7 +34,6 @@ def printToScreen(text):
     print(text)
     temp = HISTORY.copy()
     temp.insert(0,text)
-    print(temp)
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)    
@@ -55,7 +54,6 @@ def printToScreen(text):
 def printToScreenHistory(text):
     print(text)
     HISTORY.insert(0,text)
-    print(HISTORY)
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)    
@@ -349,7 +347,7 @@ def rolldice(n,s,d,hol):
     return stat
 
 def printCharacter(char):
-    for ch in char:
+    for ch in char[0:2]:
         for c in ch:
             printToScreenHistory(c+":"+str(ch[c]))
 
@@ -370,7 +368,7 @@ def generate_class () :
     monk = [[8],['str','dex'],['acrobatics', 'athletics','history','insight','religion','stealth'],[2]]
     pala = [[10],['wis','cha'],['athletics','insight','intimidation','persuasion','religion'],[2]]
     rang = [[10],['str','cha'],['animal handling', 'athletics','insight','investigation','nature','perception','stealth','survial'],[2]]
-    rogu = [[8],['dex','int'],['acrobatics', 'athletics','deception','insight','intimidation','investigation','perception','performance','persuasion','slight of hand','stealth'],[2]]
+    rogu = [[8],['dex','int'],['acrobatics', 'athletics','deception','insight','intimidation','investigation','perception','persuasion','slight of hand','stealth'],[2]]
     sorc = [[6],['con','cha'],['arcana', 'deception','insight','intimidation','persuasion','religion'],[2]]
     warl = [[8],['wis','cha'],['arcana', 'deception','history','intimidation','investigation','nature','religion'],[2]]
     wiza = [[6],['int','wis'],['arcana', 'history','insight','investigation','medicine','religion'],[2]]
@@ -496,7 +494,7 @@ class events:
 #skill check
 def skillcheck(character) :
     currentState = "skillcheck"
-    printToScreenHistory(character)
+    printCharacter(character)
     listofskills =[['athletics','str'],['acrobatics','dex'],['animal handling','wis'],['arcana','int'],['deception','cha'],['history','int'],['insight','wis'],['intimidation','cha'],['investigation','int'],['medicine','wis'],['nature','int'],['perception','wis'],['persuasion','wis'],['religion','int'],['slight of hand','dex'],['stealth','dex'],['survivial','wis']]
     skilltest = random.choice(list(listofskills))
     skillthreshold = random.randint(8,22)
