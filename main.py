@@ -31,6 +31,28 @@ def main():
 
 def printToScreen(text):
     print(text)
+    temp = HISTORY.copy()
+    temp.insert(0,text)
+    print(temp)
+    white = (255, 255, 255)
+    green = (0, 255, 0)
+    blue = (0, 0, 128)    
+    font = pygame.font.SysFont('Comic Sans MS', 30)
+    display_surface = pygame.display.set_mode((640, 480))
+    for message in range(1,9):
+        text = font.render(temp[message], True, green, blue)
+        textRect = text.get_rect()
+        textRect.center = (320,412-48*message)
+        display_surface.blit(text, textRect)
+    text = font.render(temp[0], True, blue, green)
+    textRect = text.get_rect()
+    textRect.center = (320,460)
+    display_surface.blit(text, textRect)
+
+    pygame.display.update()
+
+def printToScreenHistory(text):
+    print(text)
     HISTORY.insert(0,text)
     print(HISTORY)
     white = (255, 255, 255)
@@ -38,13 +60,19 @@ def printToScreen(text):
     blue = (0, 0, 128)    
     font = pygame.font.SysFont('Comic Sans MS', 30)
     display_surface = pygame.display.set_mode((640, 480))
-    for message in range(1):
+    for message in range(1,9):
         text = font.render(HISTORY[message], True, green, blue)
         textRect = text.get_rect()
-        print(320,480-24*message)
-        textRect.center = (320,480-24*message)
+        textRect.center = (320,412-48*message)
         display_surface.blit(text, textRect)
+    text = font.render(HISTORY[0], True, blue, green)
+    textRect = text.get_rect()
+    textRect.center = (320,460)
+    display_surface.blit(text, textRect)
+
     pygame.display.update()
+
+
 def selectState(option):
     if option == "menu":
         menu()
@@ -59,15 +87,15 @@ def selectState(option):
 ##menu
 
 def genericMenu(openMessageList,menuOptions,startState,optionResultsList):
-    printToScreen("hello")
+    printToScreenHistory("hello")
     for message in openMessageList:
-        printToScreen(message)
-    printToScreen("The menu options are:")
+        printToScreenHistory(message)
+    printToScreenHistory("The menu options are:")
     for option in menuOptions:
-        printToScreen(option)
+        printToScreenHistory(option)
     currentState = startState
     selectedEvent = 1
-    printToScreen("You have \""+ menuOptions[selectedEvent]+"\" selected")
+    printToScreen(menuOptions[selectedEvent])
 
     while currentState == startState:
 
@@ -77,28 +105,28 @@ def genericMenu(openMessageList,menuOptions,startState,optionResultsList):
                     selectedEvent -= 1
                     if selectedEvent < 0:
                         selectedEvent = len(menuOptions)-1
-                    printToScreen("Moved down to: "+menuOptions[selectedEvent])
+                    printToScreen(menuOptions[selectedEvent])
 
                 if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == len(menuOptions):
                         selectedEvent = 1
-                    printToScreen("Moved up to: "+menuOptions[selectedEvent])
+                    printToScreen(menuOptions[selectedEvent])
                 
                 if event.key == 32:
-                    printToScreen(menuOptions[selectedEvent]+" selected")
+                    printToScreenHistory(menuOptions[selectedEvent]+" selected")
                     optionResultsList[menuOptions[selectedEvent]]()
 
 def startMenu():
-    printToScreen("Welcome to the game!")
-    printToScreen("The menu options are:")
+    printToScreenHistory("Welcome to the game!")
+    printToScreenHistory("The menu options are:")
     startMenuOptions = {1:"start",2:"quit"}
     for option in startMenuOptions.values():
-        printToScreen(option)
+        printToScreenHistory(option)
     currentState = "menu"
     noOfOptions = 2
     selectedEvent = 1
-    printToScreen("You have \""+ startMenuOptions[selectedEvent]+"\" selected")
+    printToScreen(startMenuOptions[selectedEvent])
     loopno=0
     while currentState == 'menu':
         pygame.display.update()
@@ -110,33 +138,33 @@ def startMenu():
                     selectedEvent -= 1
                     if selectedEvent == 0:
                         selectedEvent = noOfOptions
-                    printToScreen("Moved down to: "+startMenuOptions[selectedEvent])
+                    printToScreen(startMenuOptions[selectedEvent])
 
 
                 if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == noOfOptions+1:
                         selectedEvent = 1
-                    printToScreen("Moved up to: "+startMenuOptions[selectedEvent])
+                    printToScreen(startMenuOptions[selectedEvent])
 
                 if event.key == 32:
                     if selectedEvent == 1:
                         currentState = "start"
-                        printToScreen("Start selected")
+                        printToScreenHistory("Start selected")
                     if selectedEvent == 2:
                         currentState = "quit"
-                        printToScreen("Quit selected")
+                        printToScreenHistory("Quit selected")
     selectState(currentState)
 
 def gameMenu():
-    printToScreen("You have paused the game")
-    printToScreen("The menu options are:")
+    printToScreenHistory("You have paused the game")
+    printToScreenHistory("The menu options are:")
     gameMenuOptions = {1:"return to game",2:"quit"}
     for option in gameMenuOptions.values():
-        printToScreen(option)
+        printToScreenHistory(option)
     currentState = "menu"
     selectedEvent = 1
-    printToScreen("You have \""+ gameMenuOptions[selectedEvent]+"\" selected")
+    printToScreen(gameMenuOptions[selectedEvent])
     while currentState == 'menu':
         for event in pygame.event.get():
             #printToScreen(event)
@@ -146,28 +174,28 @@ def gameMenu():
                     selectedEvent -= 1
                     if selectedEvent == 0:
                         selectedEvent = len(gameMenuOptions)
-                    printToScreen("Moved down to: "+gameMenuOptions[selectedEvent])
+                    printToScreen(gameMenuOptions[selectedEvent])
 
 
                 if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == len(gameMenuOptions)+1:
                         selectedEvent = 1
-                    printToScreen("Moved up to: "+gameMenuOptions[selectedEvent])
+                    printToScreen(gameMenuOptions[selectedEvent])
 
                 if event.key == SPACE:
                     if selectedEvent == 1:
                         currentState = "start"
-                        printToScreen("Start selected")
+                        printToScreenHistory("Start selected")
                     if selectedEvent == 2:
                         currentState = "quit"
-                        printToScreen("Quit selected")
+                        printToScreenHistory("Quit selected")
     if currentState != "return to game":
         selectState(currentState)
 
 #start
 def start():
-    printToScreen("Game Starting")
+    printToScreenHistory("Game Starting")
     currentState= 'prepphase'
     goPrepPhase()
 
@@ -181,15 +209,14 @@ def returntogame():
 ##prep phase
 def goPrepPhase():
     global Party
-    printToScreen("Prep Phase Has Begun")
+    printToScreenHistory("Prep Phase Has Begun")
     prepMenuOptions = {1:"Create random character",2:"Go on adventure"}
     currentState= 'prepphase'
     selectedEvent = 1
     
-    printToScreen("You have \""+ prepMenuOptions[selectedEvent]+"\" selected")
-
     for option in prepMenuOptions.values():
-        printToScreen(option)
+        printToScreenHistory(option)
+
     while currentState == 'prepphase':
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -197,14 +224,14 @@ def goPrepPhase():
                     selectedEvent -= 1
                     if selectedEvent == 0:
                         selectedEvent = len(prepMenuOptions)
-                    printToScreen("Moved down to: "+prepMenuOptions[selectedEvent])
+                    printToScreen(prepMenuOptions[selectedEvent])
 
 
                 if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == len(prepMenuOptions)+1:
                         selectedEvent = 1
-                    printToScreen("Moved up to: "+prepMenuOptions[selectedEvent])
+                    printToScreen(prepMenuOptions[selectedEvent])
                 if event.key == ESC: 
                     genericMenu(["You have paused the game"],["quit", "return to game"],"pause",{"quit":quit,"return to game":returntogame})
                     #gameMenu()
@@ -212,7 +239,7 @@ def goPrepPhase():
                 if event.key == SPACE:
                     if prepMenuOptions[selectedEvent] == "Create random character":
                         character = generate_character("Bob",1)
-                        printToScreenCharacter(character)
+                        printToScreenHistoryCharacter(character)
                         if(acceptCharacter(character)):
                             Party=[character]
                     if prepMenuOptions[selectedEvent] == "Go on adventure":
@@ -220,14 +247,14 @@ def goPrepPhase():
     selectState(currentState)
 
 def acceptCharacter(char):
-    printToScreen("The options are:")
+    printToScreenHistory("The options are:")
     gameMenuOptions = {1:"Keep these stats",2:"I don't want them in my party"}
     for option in gameMenuOptions.values():
-        printToScreen(option)
+        printToScreenHistory(option)
     currentState = "menu"
     noOfOptions = 2
     selectedEvent = 1
-    printToScreen("You have \""+ gameMenuOptions[selectedEvent]+"\" selected")
+    printToScreen(gameMenuOptions[selectedEvent])
     while currentState == 'menu':
         for event in pygame.event.get():
             #printToScreen(event)
@@ -237,28 +264,28 @@ def acceptCharacter(char):
                     selectedEvent -= 1
                     if selectedEvent == 0:
                         selectedEvent = noOfOptions
-                    printToScreen("Moved down to: "+gameMenuOptions[selectedEvent])
+                    printToScreen(gameMenuOptions[selectedEvent])
 
 
                 if event.key == UP:
                     selectedEvent += 1
                     if selectedEvent == noOfOptions+1:
                         selectedEvent = 1
-                    printToScreen("Moved up to: "+gameMenuOptions[selectedEvent])
+                    printToScreen(gameMenuOptions[selectedEvent])
 
                 if event.key == SPACE:
                     if selectedEvent == 1:
                         currentState = "Keep these stats"
-                        printToScreen("They join your party")
+                        printToScreenHistory("They join your party")
                         return True
                     if selectedEvent == 2:
                         currentState = "I don't want him in my party"
-                        printToScreen("They leave, sadly")
+                        printToScreenHistory("They leave, sadly")
                         return False
 
 ##adventure phase
 def goAdvPhase():
-    printToScreen("Adv Phase Has Begun")
+    printToScreenHistory("Adv Phase Has Begun")
     currentState= 'advphase'
     skillcheck(Party[0])
     while currentState == 'advphase':
@@ -323,12 +350,12 @@ def rolldice(n,s,d,hol):
 def printCharacter(char):
     for ch in char:
         for c in ch:
-            printToScreen(c+":"+str(ch[c]))
+            printToScreenHistory(c+":"+str(ch[c]))
 
 def printCharacterShort(char):
     for ch in char[0:1]:
         for c in ch:
-            printToScreen(c+":"+str(ch[c]))
+            printToScreenHistory(c+":"+str(ch[c]))
 #generate the character block
 
 #generate random class
@@ -350,16 +377,11 @@ def generate_class () :
 
     classes = {'Barbarian':barb,'Bard':bard,'Cleric':cler,'Druid':drui,'Fighter':figh,'Monk':monk,'Paladin':pala,'Ranger':rang,'Rogue':rogu,'Sorcerer':sorc,'Warlock':warl,'Wizard':wiza}
     characterclass = random.choice(list(classes.items()))
-    #printToScreen (characterclass)
-    #printToScreen (characterclass)
 
-    #printToScreen (characterclass)
 
     characterclass[1][2] = random.sample(characterclass[1][2],2)
     characterclass[1].pop()
 
-
-    #printToScreen (characterclass)
     return characterclass
 
 #generate a random race
@@ -384,9 +406,7 @@ def generate_race () :
 
             ranstat = int(ranstat) - 1 
         item.pop()
-    #printToScreen (racelst)
     race = random.choice(racelst)
-    #printToScreen (race)
     #[Race,Str,Dex,Con,Int,Wis,Cha]
     return race
 
@@ -405,15 +425,6 @@ def rolldice(n,s,d,hol):
     stat = sum(total_rolls)
     return stat
 
-def printCharacter(char):
-    for ch in char:
-        for c in ch:
-            printToScreen(c+":"+str(ch[c]))
-
-def printCharacterShort(char):
-    for ch in char[0:1]:
-        for c in ch:
-            printToScreen(c+":"+str(ch[c]))
 
 
 
@@ -438,9 +449,6 @@ def generate_character (n,l):
     charclass = generate_class ()
     #hd = [charclass[0]]
     hd = charclass[1][0][0]
-    #printToScreen (charclass[1][2])
-    #for x in (charclass[1][2]) :
-        #printToScreen (x)
 
     #generate core stat block
     name = {'Name':n,'Race':race[0],'Class':charclass[0]}
@@ -470,7 +478,6 @@ def generate_character (n,l):
         y = skills[x]
         y = y + proficancy[level['lvl']]
         skills.update({x:y})
-        #printToScreen (y)
         
     #generate item block
 
@@ -488,27 +495,27 @@ class events:
 #skill check
 def skillcheck(character) :
     currentState = "skillcheck"
-    printToScreen(character)
+    printToScreenHistory(character)
     listofskills =[['athletics','str'],['acrobatics','dex'],['animal handling','wis'],['arcana','int'],['deception','cha'],['history','int'],['insight','wis'],['intimidation','cha'],['investigation','int'],['medicine','wis'],['nature','int'],['perception','wis'],['persuasion','wis'],['religion','int'],['slight of hand','dex'],['stealth','dex'],['survivial','wis']]
     skilltest = random.choice(list(listofskills))
     skillthreshold = random.randint(8,22)
    
-    printToScreen ('Oh no!, a problem that can only be solved by '+str(skilltest[0])+' and it requires that are crew rolls a '+str(skillthreshold)+' to pass!')
+    printToScreenHistory ('Oh no!, a problem that can only be solved by '+str(skilltest[0])+' and it requires that are crew rolls a '+str(skillthreshold)+' to pass!')
     while currentState == 'skillcheck':
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == SPACE: 
-                    printToScreen (character[0]['Name']+ ' steps up... ')
+                    printToScreenHistory (character[0]['Name']+ ' steps up... ')
                     #
                     if skilltest[0] in character[4]:
                         charroll = character [4][skilltest[0]] + random.randint(1,20)
                     else:
                         charroll = random.randint(1,20)
-                    printToScreen (charroll) 
+                    printToScreenHistory (charroll) 
                     if charroll >= skillthreshold :
-                        printToScreen ("Sucess")
+                        printToScreenHistory ("Sucess")
                     else :
-                        printToScreen ("Failure")
+                        printToScreenHistory ("Failure")
                     currentState = 'none'
 
 
@@ -527,9 +534,7 @@ class Trait:
         self.add = a
         self.remove = r
     def addTrait(self,character):
-        printToScreen(self.add)
         self.add[0]([[self.name,1]],1,character)
-        printToScreen([[self.add[1],self.add[2]]],self.add[3],character)
         self.add[0]([[self.add[1],self.add[2]]],self.add[3],character)
 
 #main
