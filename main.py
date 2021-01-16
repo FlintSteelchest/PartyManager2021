@@ -526,6 +526,28 @@ def addToChar(stats, bonus, character):
         else:
             character[stat[1]][stat[0]]=bonus
 
+def parseFile(file):
+    with open(file) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            items.append([row[0],row[1],row[2],row[3]])
+
+def parseEffect(effect):
+    output = []
+    effect = effect.split(',')
+    for e in effect:
+        print(e)
+        e = str(e.upper())
+        if e == "No Effect":
+            print("YOU GET NOTHING")
+        if e.split(" ")[1] in STATS:
+            output.append([addToChar,e.split(" ")[1],2,int(e.split(" ")[0])])
+        else:
+            print("not yet!")
+    print("DONE",output)
+    return output
+
 
 class Trait:
     def __init__(self, n, c, a, r):

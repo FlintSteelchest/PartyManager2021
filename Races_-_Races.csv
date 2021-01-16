@@ -1,0 +1,34 @@
+Race,Str,Dex,Con,Int,Wis ,Cha,Rnd
+Dragonborn,2,0,0,0,0,1,0
+Dwarf (Hill),0,0,2,0,1,0,0
+Dwarf (Mountain),2,0,2,0,0,0,0
+Elf (Wood),0,2,0,0,1,0,0
+Elf (Eladrin),0,2,0,0,0,0,1
+Elf (High),0,2,0,1,0,0,0
+Gnome (Deep),0,1,0,2,0,0,0
+Gnme (Rock),0,0,1,2,0,0,0
+Half-Elf,0,0,0,0,0,2,2
+Halfling (Lightfoot),0,2,0,0,0,1,0
+Halfling (Stout),0,2,1,0,0,0,0
+Half-Orc,2,0,1,0,0,0,0
+Human,1,1,1,1,1,1,0
+Tiefling,0,0,0,1,0,2,0
+Orc of Exandria,2,0,1,0,0,0,0
+Leonin,1,0,2,0,0,0,0
+Satyr,0,1,0,0,0,2,0
+Arakocra,0,2,0,0,1,0,0
+Genasi (Air),0,1,2,0,0,0,0
+Genasi (Earth),1,0,2,0,0,0,0
+Genasi (Fire),0,0,2,1,0,0,0
+Genasi (Water),0,0,2,0,1,0,0
+Goliath,2,0,1,0,0,0,0
+Aasimar,0,0,0,0,0,2,0
+Goblin,0,2,1,0,0,0,0
+Kenku,0,2,0,0,1,0,0
+Tabaxi,0,2,0,0,0,1,0
+Tortle,2,0,0,0,1,0,0
+Changeling,0,0,0,0,0,2,0
+Kalashtar,0,0,0,0,2,1,0
+Warforged,0,0,2,0,0,0,1
+Centaur,2,0,0,0,1,0,0
+Luxodon,0,0,2,0,1,0,0

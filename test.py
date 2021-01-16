@@ -80,11 +80,13 @@ print(character)
 
 import csv
 items=[]
-with open("Traits_and_Items2.csv") as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    for row in csv_reader:
-        items.append([row[0],row[1],row[2],row[3]])
+
+def parseFile(file):
+    with open(file) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            items.append([row[0],row[1],row[2],row[3]])
 
 def parseEffect(effect):
     output = []
@@ -109,9 +111,3 @@ for item in items:
     item.addTrait(character)
 print(character)
 
-printToScreen()
-    pygame.font.init() # you have to call this at the start, 
-                    # if you want to use this module.
-    myfont = pygame.font.SysFont('Comic Sans MS', 30)
-    textsurface = myfont.render('Some Text', False, (0, 0, 0))
-    screen.blit(textsurface,(0,0))
