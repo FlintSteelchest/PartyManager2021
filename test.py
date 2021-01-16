@@ -45,6 +45,7 @@ def rolldice(n,s,d,hol):
         if hol=='l':
             for x in range(d-1):
                 total_rolls.remove(max(total_rolls))
+                print(x)
     stat = sum(total_rolls)
     return stat
 
@@ -81,12 +82,12 @@ print(character)
 import csv
 items=[]
 
-def parseFile(file):
+def parseFile(file,outputlist):
     with open(file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
-            items.append([row[0],row[1],row[2],row[3]])
+            ITEMS.append([row[0],row[1],row[2],row[3]])
 
 def parseEffect(effect):
     output = []
@@ -111,3 +112,4 @@ for item in items:
     item.addTrait(character)
 print(character)
 
+parseFile("encounters.csv")

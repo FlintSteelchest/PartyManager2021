@@ -13,6 +13,7 @@ SPACE = 32
 ESC = 27
 Party = []
 HISTORY = ["","","","","","","","","",""]
+ITEMS= []
 ###funtions
 
 ##main
@@ -239,7 +240,7 @@ def goPrepPhase():
                 if event.key == SPACE:
                     if prepMenuOptions[selectedEvent] == "Create random character":
                         character = generate_character("Bob",1)
-                        printToScreenHistoryCharacter(character)
+                        printCharacter(character)
                         if(acceptCharacter(character)):
                             Party=[character]
                     if prepMenuOptions[selectedEvent] == "Go on adventure":
@@ -388,7 +389,7 @@ def generate_class () :
 def generate_race () :
     #racelist [Race[0],Str[1],Dex[2],Con[3],Int[4],Wis[5],Cha[6],Ran[7]]
     racelst = []
-    with open ('Races - Races.csv',newline= '') as csvfile:
+    with open ('Races_-_Races.csv',newline= '') as csvfile:
         sheetreader = csv.reader(csvfile, quotechar='|')
         csvfile.readline()
         for row in sheetreader :
@@ -526,12 +527,12 @@ def addToChar(stats, bonus, character):
         else:
             character[stat[1]][stat[0]]=bonus
 
-def parseFile(file):
+def parseFile(file,outputlist):
     with open(file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
-            items.append([row[0],row[1],row[2],row[3]])
+            ITEMS.append([row[0],row[1],row[2],row[3]])
 
 def parseEffect(effect):
     output = []
@@ -547,7 +548,6 @@ def parseEffect(effect):
             print("not yet!")
     print("DONE",output)
     return output
-
 
 class Trait:
     def __init__(self, n, c, a, r):
